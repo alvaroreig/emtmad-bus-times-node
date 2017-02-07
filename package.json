@@ -14,5 +14,8 @@
   "license": "BSD-2-Clause",
   "bugs": {
     "url": "https://github.com/alvaroreig/emtmad-bus-times-node/issues"
+  },
+  "dependencies": {
+    "request": "2.79.0"
   }
 }
