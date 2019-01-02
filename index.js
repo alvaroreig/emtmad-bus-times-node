@@ -1,4 +1,5 @@
 var request = require('request');
+var rp = require('request-promise');
 
 // Probably not the best way to share vars between functions in module scope. Please let me know the right way.
 var globalIdClient = '';
@@ -27,26 +28,32 @@ module.exports = {
 			"passKey": globalPasskey
 		};
 
-		// Perform API call
-		request.post({
-			url: getIncomingBusesToStopUrl, 
-			form: formData,
-			strictSSL: false // The API certificate looks self signed
+		var options = {
+		    method: 'POST',
+		    uri: getIncomingBusesToStopUrl,
+		    form: formData,
+		    json: true, // Automatically stringifies the body to JSON
+		    strictSSL: false // The API certificate looks self signed
+		};
 
-		}, function (err, httpResponse, body) {
-			if ( err ) {
-				console.error('Error while connecting:');
-				response.status = 400;
-				response.error = err;
-			}else{
-				console.log('REST call OK');
-				response.status = 200;
-				response.arrives = (JSON.parse(body)).arrives;
-			}
+		rp(options)
+	    .then(function (parsedBody) {
+	        console.log('REST call OK');
+			response.status = 200;
+			response.arrives = parsedBody.arrives;
 
 			if (typeof callback === "function") {
 				callback ( response );
 			}
-		});
+	    })
+	    .catch(function (err) {
+	        console.error('Error while connecting:');
+			response.status = 400;
+			response.error = err;
+
+			if (typeof callback === "function") {
+				callback ( response );
+			}
+	    });
 	}
 }

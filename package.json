@@ -1,6 +1,6 @@
 {
   "name": "emtmad-bus-times-node",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Nodejs library to access services from the public API of the Public Transport Authority of Madrid, Spain (EMT)",
   "main": "index.js",
   "scripts": {
@@ -16,6 +16,7 @@
     "url": "https://github.com/alvaroreig/emtmad-bus-times-node/issues"
   },
   "dependencies": {
-    "request": "2.79.0"
+    "request": "2.79.0",
+    "request-promise": "^4.2.2"
   }
 }
